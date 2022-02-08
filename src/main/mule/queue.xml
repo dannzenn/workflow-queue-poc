@@ -6,7 +6,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xmlns:os="http://www.mulesoft.org/schema/mule/os" 
 xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd ">
-	<flow name="processor" doc:id="5efd161e-72aa-4aab-822f-dc2bed220308">
+	<flow name="queue-process-scheduler" doc:id="5efd161e-72aa-4aab-822f-dc2bed220308">
         <scheduler doc:name="Scheduler" doc:id="c9be7fac-2c16-45e2-af13-349da9ca5042">
             <scheduling-strategy>
                 <fixed-frequency frequency="5" timeUnit="SECONDS" />
@@ -20,7 +20,7 @@ http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/cu
                 <flow-ref doc:name="GET queue" doc:id="2a5f4e5a-95ec-4d26-967f-304bec4d8f5f" name="get:\queue:workflow-queue-poc-config" />
                 <choice doc:name="Choice" doc:id="05cf910b-c1cd-4536-b5d4-13109a1ec99c">
                     <when expression="#[payload[0] != null]">
-                        <logger level="INFO" doc:name="Logger" doc:id="60914344-9aed-487c-b871-066a7e0b06dd" message="Initializing Process from the queue." />
+                        <logger level="INFO" doc:name="Logger" doc:id="60914344-9aed-487c-b871-066a7e0b06dd" message='#["Initializing Process of: " ++ (payload[0].flowName default "") ++ " from the queue."]' />
                         <os:store doc:name="Set Processing Key to True" doc:id="2d1078ba-e508-4b34-adb2-8e3ac396f172" key="processing" objectStore="Process-State-Store">
                             <os:value><![CDATA[#[true]]]></os:value>
                         </os:store>
@@ -29,21 +29,23 @@ http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/cu
                         </async>
                     </when>
                     <otherwise>
-                        <logger level="INFO" doc:name="Logger" doc:id="e484c17d-eff2-4c31-a90f-a7425c46b46b" message="System has no processes in the queue." />
+                        <logger level="DEBUG" doc:name="Logger" doc:id="e484c17d-eff2-4c31-a90f-a7425c46b46b" message="System has no processes in the queue." />
                     </otherwise>
                 </choice>
             </when>
             <otherwise>
-                <logger level="INFO" doc:name="Logger" doc:id="c8b13c4d-c920-49cb-9381-d158284c8e1b" message="System currently processing. Skipping any scheduler actions." />
+                <logger level="DEBUG" doc:name="Logger" doc:id="c8b13c4d-c920-49cb-9381-d158284c8e1b" message="System currently processing. Skipping any scheduler actions." />
             </otherwise>
         </choice>
     </flow>
-    <flow name="cleanup-queue-process" doc:id="11ea411c-16ae-484d-89b1-19c723b308c5">
+    <flow name="queue-cleanup" doc:id="11ea411c-16ae-484d-89b1-19c723b308c5">
         <flow-ref doc:name="GET queue" doc:id="44b050c4-e41a-48da-9cb9-702004d66c04" name="get:\queue:workflow-queue-poc-config" />
         <os:remove doc:name="Remove" doc:id="00026d9a-13a8-4d49-8709-5685ae678113" key="#[payload[0].key]" objectStore="Process-Queue" />
         <os:store doc:name="Set Processing Key to False" doc:id="7aaecae5-387e-4260-b2f6-9a1cc565cd35" key="processing" objectStore="Process-State-Store">
             <os:value><![CDATA[#[false]]]></os:value>
         </os:store>
-        <logger level="INFO" doc:name="Logger" doc:id="b48e29c0-7f12-4850-96e0-2f4374cfeef5" message="#[&quot;Process of &quot; ++ (payload[0].processName default &quot;&quot;) ++ &quot; which seeded at &quot; ++ (payload[0].datetime default &quot;&quot;) ++ &quot; has been concluded and has been removed from the processor queue.&quot;]" />
-    </flow>
+        <logger level="INFO" doc:name="Logger" doc:id="b48e29c0-7f12-4850-96e0-2f4374cfeef5" message='#["Process of " ++ (payload[0].flowName default "") ++ " which seeded at " ++ (payload[0].datetime default "") ++ " has been concluded and has been removed from the processor queue."]' />
+		<flow-ref doc:name="Flow Reference" doc:id="3a4a2b61-8daf-4f24-a6b5-06a86b2cfd50" name="queue-process-scheduler"/>
+    
+</flow>
 </mule>

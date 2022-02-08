@@ -12,7 +12,7 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
             </ee:message>
         </ee:transform>
         <logger level="INFO" doc:name="Logger" doc:id="ac3bfc4f-27d8-4c2c-b9b4-bce5dd6fdaa4" message="15s process complete!" />
-        <flow-ref doc:name="Flow Reference" doc:id="4c962c75-d2cb-486f-bfab-4ec55313f4fb" name="cleanup-queue-process" />
+        <flow-ref doc:name="Cleanup" doc:id="4c962c75-d2cb-486f-bfab-4ec55313f4fb" name="queue-cleanup" />
     </flow>
     <flow name="process-thirty" doc:id="ecf7f9e0-d4dc-4cfc-ae81-8353274d8095">
         <ee:transform doc:name="wait-30s" doc:id="fe3ba2af-577b-457d-802a-3ed19b3ab388">
@@ -21,6 +21,6 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
             </ee:message>
         </ee:transform>
         <logger level="INFO" doc:name="Logger" doc:id="11b38d2a-4342-4342-95a4-bfc57a256701" message="30s process complete!" />
-        <flow-ref doc:name="Flow Reference" doc:id="d3fb53fd-9cd4-4e21-a011-6f336471c5b5" name="cleanup-queue-process" />
+        <flow-ref doc:name="Cleanup" doc:id="d3fb53fd-9cd4-4e21-a011-6f336471c5b5" name="queue-cleanup" />
     </flow>
 </mule>

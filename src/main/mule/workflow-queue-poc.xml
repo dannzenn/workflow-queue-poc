@@ -117,7 +117,6 @@ output application/json
             <os:value><![CDATA[#[{
 	datetime: now(),
 	key: vars.uniqueKey,
-	processName: "Fifteen",
 	flowName: "process-fifteen"
 }]]]></os:value>
         </os:store>
@@ -129,7 +128,6 @@ output application/json
             <os:value><![CDATA[#[{
 	datetime: now(),
 	key: vars.uniqueKey,
-	processName: "Thirty",
 	flowName: "process-thirty"
 }]]]></os:value>
         </os:store>
