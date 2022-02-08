@@ -1,0 +1,16 @@
+#%RAML 1.0
+title: Workflow Queue POC
+description: POC to test out an in-flow queue system to prevent multiple long processes from occuring simulatenously
+version: v1
+protocols: HTTP
+mediaType: application/json
+
+/queue:
+  get:
+    description: check what is currently in the queue
+    
+/workflows/fifteen:
+  post:
+  
+/workflows/thirty:
+  post:

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+xmlns="http://www.mulesoft.org/schema/mule/core" 
+xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd 
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+<flow name="process-fifteen" doc:id="267cdc30-02a8-4102-9ebf-82920689b387">
+        <ee:transform doc:name="wait-15s" doc:id="004a21c6-5b37-4d84-bbf5-2abf4de7ab53">
+            <ee:message>
+                <ee:set-payload resource="dwl/wait-fifteen-seconds.dwl" />
+            </ee:message>
+        </ee:transform>
+        <logger level="INFO" doc:name="Logger" doc:id="ac3bfc4f-27d8-4c2c-b9b4-bce5dd6fdaa4" message="15s process complete!" />
+        <flow-ref doc:name="Flow Reference" doc:id="4c962c75-d2cb-486f-bfab-4ec55313f4fb" name="cleanup-queue-process" />
+    </flow>
+    <flow name="process-thirty" doc:id="ecf7f9e0-d4dc-4cfc-ae81-8353274d8095">
+        <ee:transform doc:name="wait-30s" doc:id="fe3ba2af-577b-457d-802a-3ed19b3ab388">
+            <ee:message>
+                <ee:set-payload resource="dwl/wait-tirty-seconds.dwl" />
+            </ee:message>
+        </ee:transform>
+        <logger level="INFO" doc:name="Logger" doc:id="11b38d2a-4342-4342-95a4-bfc57a256701" message="30s process complete!" />
+        <flow-ref doc:name="Flow Reference" doc:id="d3fb53fd-9cd4-4e21-a011-6f336471c5b5" name="cleanup-queue-process" />
+    </flow>
+</mule>
